@@ -23,6 +23,7 @@ from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
 # Config file. You should check this
 import config
+import tor
 
 import random
 import logging
@@ -121,7 +122,7 @@ class grabber(threading.Thread):
         
         self.failcount = 0    # Counts failures
         self.donecount = 0    # Counts successes
-        #self.tor = tor.tor()  # Manages Tor via control port
+        self.tor = tor.tor()  # Manages Tor via control port
 
         if DEBUG:  # PhantomJS sends a lot of data if debug set to DEBUG
             logging.basicConfig(level=logging.INFO)
@@ -227,7 +228,8 @@ class grabber(threading.Thread):
                 return False
         source = browser.page_source
         if source == '<html><head></head><body></body></html>':
-            print("No source found. Problem making a connection")
+            print("No source found.")
+            self.tor.newnym()
             return False
 
         if not "404" in browser.title:
