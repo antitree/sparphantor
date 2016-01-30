@@ -3,10 +3,10 @@ from stem.control import Controller
 import config
 import time
 
-RSTTIMEOUT = 5  # seconds to wait before allowing Tor to reset
+RSTTIMEOUT = config.TOR_RESET_TIMER  # seconds to wait before allowing Tor to reset
 
 class tor:
-    def __init__(self, auth="", control_port=9051):
+    def __init__(self, auth="", control_port=config.CONTROL_PORT):
         self.set_last_reset()
         self.control_port = control_port        # Tor Control port
         self.auth = auth                        # cookie path
